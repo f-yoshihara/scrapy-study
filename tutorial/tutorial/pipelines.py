@@ -1,4 +1,5 @@
 import pymongo
+import datetime
 
 class TutorialPipeline(object):
 
@@ -11,8 +12,8 @@ class TutorialPipeline(object):
     @classmethod
     def from_crawler(cls, crawler):
         return cls(
-            mongo_uri=crawler.settings.get('MONGO_URI'),
-            mongo_db=crawler.settings.get('MONGO_DATABASE', 'items')
+            mongo_uri  = crawler.settings.get('MONGO_URI'),
+            mongo_db   = crawler.settings.get('MONGO_DATABASE', 'items')
         )
 
     def open_spider(self, spider):
