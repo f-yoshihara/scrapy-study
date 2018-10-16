@@ -1,5 +1,6 @@
 import scrapy
 import datetime
+from tutorial.items import TutorialItem
 
 class QuotesSpider(scrapy.Spider):
     name = "quotes"
