@@ -1,5 +1,5 @@
 import scrapy
-
+import datetime
 
 class QuotesSpider(scrapy.Spider):
     name = "quotes"
@@ -13,8 +13,10 @@ class QuotesSpider(scrapy.Spider):
             yield scrapy.Request(url=url, callback=self.parse)
 
     def parse(self, response):
-        page = response.url.split("/")[-2]
-        filename = 'quotes-%s.html' % page
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-        self.log('Saved file %s' % filename)
+        for quote in response.css('div.quote'):
+            item = TutorialItem()
+            item['text']   = quote.css('span.text::text').extract_first()
+            item['author'] = quote.xpath('span/small/text()').extract_first()
+            item['date']   = datetime.datetime.utcnow() + datetime.timedelta(hours=9)
+
+        yield item
